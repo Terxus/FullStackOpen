@@ -2,48 +2,59 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 const App = () => {
-    const course = 'Half Stack application development'
-    const part1 = 'Fundamentals of React'
-    const exercises1 = 10
-    const part2 = 'Using props to pass data'
-    const exercises2 = 7
-    const part3 = 'State of a component'
-    const exercises3 = 14
-  
+    const course = {
+        name: 'Half Stack application development',
+        parts: [
+            {
+                name: 'Fundamentals of React',
+                exercises: 10
+            },
+            {
+                name: 'Using props to pass data',
+                exercises: 7
+            },
+            {
+                name: 'State of a component',
+                exercises: 14
+            }
+        ]
+    }
+
     return (
-      <div>
-        <Header title = {course} />
-        <Content partName1 = {part1} exerciseNumber1 = {exercises1} 
-                 partName2 = {part2} exerciseNumber2 = {exercises2}  
-                 partName3 = {part3} exerciseNumber3 = {exercises3} />
-        <Total exercises = {[exercises1,
-                             exercises2,
-                             exercises3]} />
-      </div>
+        <div>
+            <Header title={course.name} />
+            <Content parts={course.parts} />
+            <Total exercises={course.parts.map(part => part.exercises)} />
+        </div>
     )
-  }
+}
 
-const Header = (props) => (
-    <>
-    <h1>{props.title}</h1>
-    </>
-)
+const Header = (props) => {
+    console.log(props)
+    return (
+        <>
+            <h1>{props.title}</h1>
+        </>
+    )
+}
 
-const Content = (props) => (
-    <div>
-    <p>
-       <Part partName = {props.partName1} exercises = {props.exerciseNumber1} />
-       <Part partName = {props.partName2} exercises = {props.exerciseNumber2} />
-       <Part partName = {props.partName3} exercises = {props.exerciseNumber3} /> 
-    </p>
-    </div>
-)
+const Content = (props) => {
+    console.log(props)
+    return (
+        <div>
+            <p>
+                <Part part={props.parts[0]} />
+                <Part part={props.parts[1]} />
+                <Part part={props.parts[2]} />
+            </p>
+        </div>
+    )
+}
 
 const Total = (props) => {
-    var total = 0;
-    props.exercises.forEach(element => {
-        total += element
-    });
+    console.log(props)
+    let total = 0
+    props.exercises.forEach(element => total += element)
 
     return (
         <>
@@ -52,12 +63,14 @@ const Total = (props) => {
     )
 }
 
-const Part = (props) => (
-    <>
-        {props.partName} {props.exercises}
-        <br></br>
-    </>
-)
+const Part = (props) => {
+    console.log(props)
+    return (
+        <>
+            {props.part.name} {props.part.exercises}
+            <br></br>
+        </>
+    )
+}
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
