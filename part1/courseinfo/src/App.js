@@ -27,7 +27,6 @@ const Total = (props) => {
 }
 
 function App() {
-  // const course = 'Half Stack Application Development';
   const course = {
     name: 'Half Stack Application Development',
     parts: [ { name: 'Fundamentals of React',
