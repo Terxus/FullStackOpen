@@ -4,7 +4,45 @@ const Header = ({text}) => <h1>{text}</h1>;
 
 const Button = (props) => <button onClick={props.onClick}>{props.text}</button>;
 
-const DisplayStat = (props) => <p>{props.description} {props.value}</p>;
+const DisplayStat = (props) => {
+  return(
+  <tr>
+    <td>{props.description}</td>
+    <td>{props.value}</td>
+  </tr>
+  )
+};
+
+const Statistics = (props) => {
+  const [good, neutral, bad] = props.votes;
+  const calcTotal = () => good + neutral + bad;
+  const calcAverage = () => (good - bad) / calcTotal();
+  const calcPositive = () => good / (calcTotal() / 100);
+
+  if(good === 0 && neutral === 0 && bad === 0) {
+    return(
+      <div>
+        <p>No feedback given</p>
+      </div>
+    )
+  };
+
+  return (
+    <div>
+      <table>
+        <tbody>
+          <DisplayStat description='good' value={good} />
+          <DisplayStat description='neutral' value={neutral} />
+          <DisplayStat description='bad' value={bad} />
+          <DisplayStat description='all' value={calcTotal()} />
+          <DisplayStat description='average' value={calcAverage()} />
+          <DisplayStat description='positive' value={calcPositive() + ' %'} />
+        </tbody>
+      </table>
+    </div>
+  )
+
+}
 
 function App() {
   const [good, setGood] = useState(0);
@@ -14,12 +52,6 @@ function App() {
   const feedbackHeader = 'give Feedback';
   const statHeader = 'statistics';
 
-  const calcTotal = () => good + neutral + bad;
-
-  const calcAverage = () => (good - bad) / calcTotal();
-
-  const calcPositive = () => good / (calcTotal() / 100);
-
   return (
     <div>
       <Header text={feedbackHeader}/>
@@ -27,12 +59,7 @@ function App() {
       <Button onClick={() => setNeutral(neutral + 1)} text='neutral'/>
       <Button onClick={() => setBad(bad + 1)} text='bad'/>
       <Header text={statHeader}/>
-      <DisplayStat description='good' value={good}/>
-      <DisplayStat description='neutral' value={neutral}/>
-      <DisplayStat description='bad' value={bad}/>
-      <DisplayStat description='all' value={calcTotal()}/>
-      <DisplayStat description='average' value={calcAverage()}/>
-      <DisplayStat description='positive' value={calcPositive()}/>
+      <Statistics votes={[good, neutral, bad]}/>
     </div>
   );
 }
